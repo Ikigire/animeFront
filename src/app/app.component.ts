@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AnimeService } from './anime.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'animeFront';
+  animes = [];
+  constructor(private animeService: AnimeService) {
+    this.animeService.getAnimes().subscribe(
+      (animes) => {
+        console.log(animes);
+        
+      }
+    )
+  }
+
+
 }
