@@ -51,7 +51,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar nuevo Tipo</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -80,7 +80,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" [disabled]="!typesReady" (click)="registrarTipo()">Registrar
+          <button type="button" class="btn btn-primary" [disabled]="!typesReady" (click)="registrarTipo()"
+            data-bs-dismiss="modal" aria-label="Close">Registrar
             tipo</button>
         </div>
       </div>
@@ -93,7 +94,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar nuevo estudio</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -122,7 +123,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" [disabled]="!studiosReady" (click)="registrarStudio()">Registrar
+          <button type="button" class="btn btn-primary" [disabled]="!studiosReady" (click)="registrarStudio()"
+            data-bs-dismiss="modal" aria-label="Close">Registrar
             estudio</button>
         </div>
       </div>
@@ -135,7 +137,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar nuevo anime</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -157,7 +159,8 @@
             <div class="form-floating">
               <select class="form-select" id="studioSelect" aria-label="Floating label select example"
                 [(ngModel)]="newAnime.StudioId">
-                <option *ngFor="let studio of studios" [value]="studio.StudioId" [selected]="newAnime.StudioId == studio.StudioId">{{studio.Name}}</option>
+                <option *ngFor="let studio of studios" [value]="studio.StudioId"
+                  [selected]="newAnime.StudioId == studio.StudioId">{{studio.Name}}</option>
               </select>
               <label for="studioSelect">Estudio</label>
             </div>
@@ -217,8 +220,104 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" [disabled]="!isReady" (click)="registrarAnime()">Registrar
+          <button type="button" class="btn btn-primary" [disabled]="!isReady" (click)="registrarAnime()"
+            data-bs-dismiss="modal" aria-label="Close">Registrar
             anime</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="modal fade" id="editAnime" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar anime</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div *ngIf="!isReady; else editAnimeForm" class="text-center">
+            <div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-secondary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow text-success" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+
+          <ng-template #editAnimeForm>
+            <div class="form-floating">
+              <select class="form-select" id="studioSelect" aria-label="Floating label select example"
+                [(ngModel)]="animeToEdit.StudioId">
+                <option *ngFor="let studio of studios" [ngValue]="studio.StudioId">{{studio.Name}}</option>
+              </select>
+              <label for="studioSelect">Estudio</label>
+            </div>
+            <div class="form-floating">
+              <select class="form-select" id="typeSelect" aria-label="Floating label select example"
+                [(ngModel)]="animeToEdit.TypeId">
+                <option *ngFor="let type of types" [value]="type.TypeId">{{type.Type}}</option>
+              </select>
+              <label for="typeSelect">Tipo</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="animeName" placeholder="MAPPA" required
+                [(ngModel)]="animeToEdit.Name">
+              <label for="animeName">Nombre anime</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="animeJName" placeholder="MAPPA" required
+                [(ngModel)]="animeToEdit.Japanese_name">
+              <label for="animeJName">Nombre Japonés</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="animeEpisodios" placeholder="MAPPA" required
+                [(ngModel)]="animeToEdit.Episodes">
+              <label for="animeEpisodios">Número de episodios</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="animeSeason" placeholder="MAPPA" required
+                [(ngModel)]="animeToEdit.Release_season">
+              <label for="animeSeason">Etación de emisión</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="animeyear" placeholder="MAPPA" required
+                [(ngModel)]="animeToEdit.Release_year" aria-labelledby="animeYearHelp">
+              <label for="animeyear">Año de lanzamiento</label>
+              <span id="animeYearHelp" class="form-text">
+                Solo es el año de lanzamiento en 4 digitos (ejemplo: '2023')
+              </span>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="animeTags" placeholder="MAPPA" required
+                [(ngModel)]="animeToEdit.Tags" aria-labelledby="animeTagsHelp">
+              <label for="animeTags">Etiquetas</label>
+              <span id="animeTagsHelp" class="form-text">
+                Agregue uno o mas etiquetas, en caso de agregar más de una deberá separarlas por comas (ejemplo:
+                'Aventura, Acción, Poderes Sobrenaturales')
+              </span>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="number" class="form-control" id="animeRating" placeholder="MAPPA" required
+                [(ngModel)]="animeToEdit.Rating">
+              <label for="animeRating">Rating</label>
+            </div>
+          </ng-template>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" [disabled]="!isReady" (click)="updateAnime()"
+            data-bs-dismiss="modal" aria-label="Close">Guardar
+            cambios</button>
         </div>
       </div>
     </div>
@@ -244,7 +343,7 @@
           <div class="col-sm-12 mx-auto">
             <!-- <h1>Animes</h1> -->
             <div class="table-responsive">
-              <table class="table table-hover">
+              <table class="table table-hover table-striped">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -261,7 +360,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let anime of animes" (auxclick)="sayHello('Hola desde el anime ' + anime.Name)">
+                  <tr *ngFor="let anime of animes">
                     <th scope="row">{{anime.AnimeID}}</th>
                     <td>{{anime.Name}}</td>
                     <td>{{anime.Japanese_name}}</td>
@@ -274,14 +373,15 @@
                     <td>{{anime.Tags}}</td>
                     <td>
                       <div class="btn-group">
-                        <button class="btn btn-sm text-danger">
+                        <button class="btn btn-sm text-danger" (click)="deleteAnime(anime)">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-trash3" viewBox="0 0 16 16">
                             <path
                               d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
                           </svg>
                         </button>
-                        <button class="btn btn-sm text-info">
+                        <button class="btn btn-sm text-info" data-bs-toggle="modal" data-bs-target="#editAnime"
+                          (click)="setAnimeToEdit(anime)">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-pencil" viewBox="0 0 16 16">
                             <path

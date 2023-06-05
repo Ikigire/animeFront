@@ -39,6 +39,19 @@ export class AppComponent {
     StudioId: 1,
     TypeId: 1
   };
+  
+  animeToEdit: Anime = {
+    AnimeID: 0,
+    Name: '',
+    Japanese_name: '',
+    Episodes: 0,
+    Release_season: '',
+    Tags: '',
+    Rating: 0.0,
+    Release_year: 0,
+    StudioId: 1,
+    TypeId: 1
+  };
 
 
   constructor(
@@ -162,19 +175,56 @@ export class AppComponent {
     }
 
     this.isReady = false;
-    // this.animeService.postAnimes(this.newAnime).subscribe(
-    //   () => {
-    //     this.obtenerTodosAnimes();
-    //     alert("El anime se registró con éxito");
-    //   }
-    // );
-    console.log(this.newAnime);
+    this.animeService.postAnimes(this.newAnime).subscribe(
+      () => {
+        this.obtenerTodosAnimes();
+        alert("El anime se registró con éxito");
+      }
+    );
+    // console.log(this.newAnime);
     
-    alert(this.newAnime);
-    this.isReady = true;
+    // alert(this.newAnime);
   }
 
-  sayHello( saludo: string ): void {
-    alert("Hola we!\n" + saludo);
+  deleteAnime( anime:Anime ): void {
+    const sureDelete = confirm("¿Está seguro de eliminar el anime: " + anime.Name + "?");
+    if (sureDelete) {
+      this.animeService.deleteAnimes( anime.AnimeID ).subscribe(
+        () => {
+          this.isReady = false;
+          alert("Anime: " + anime.Name + '\nEliminado con éxito')
+          this.obtenerTodosAnimes()
+        }
+      )
+    }
+  }
+
+  setAnimeToEdit( anime:Anime ): void {
+    // this.animeToEdit = anime;
+    this.animeToEdit = {
+      AnimeID: anime.AnimeID,
+      Name: anime.Name,
+      Japanese_name: anime.Japanese_name,
+      Episodes: anime.Episodes,
+      Release_season: anime.Release_season,
+      Release_year: anime.Release_year,
+      Rating: anime.Rating,
+      Tags: anime.Tags,
+      TypeId: this.types.filter((tipo) => tipo.Type == anime.Type)[0].TypeId,
+      StudioId: this.studios.filter((studio) => studio.Name == anime.Studio)[0].StudioId
+    }
+  }
+
+  updateAnime(): void {
+    const sureUpdate = confirm("¿Está seguro de guardar los cambios?")
+    if (sureUpdate) {
+      this.animeService.putAnimes(this.animeToEdit).subscribe(
+        () => {
+          this.isReady = false;
+          this.obtenerTodosAnimes();
+          alert("Se acutlizó la información correctamente")
+        }
+      )
+    }
   }
 }
